@@ -4,8 +4,11 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Tests: Passing](https://img.shields.io/badge/pytest-7%20passed-brightgreen.svg)]()
+[![Paper: 2-Page Extended Abstract](https://img.shields.io/badge/Paper-NeurIPS%20Extended%20Abstract-purple.svg)](paper/extended_abstract.tex)
 
 A clean, reproducible, publication-grade research repository investigating **"Stateful Performative Prediction under Multi-Platform Competition and Social Network Interference"**, extending foundational work by Perdomo et al. (*ICML 2020*) and Mendler-Dünner et al. (*NeurIPS 2020*).
+
+> **📄 Research Paper Draft:** A complete 2-page NeurIPS/ICML-style LaTeX extended abstract summarizing the theoretical propositions, proof sketches, and experimental results is available in [`paper/extended_abstract.tex`](paper/extended_abstract.tex) (ready for 1-click Overleaf import). See [`paper/README.md`](paper/README.md).
 
 ---
 
@@ -109,6 +112,11 @@ networked-performative-dynamics/
 │   ├── __init__.py
 │   ├── test_contraction.py             # Unit tests for contraction and breakdown
 │   └── test_env.py                     # Unit tests for population, graph & choices
+├── paper/                              # 2-Page NeurIPS/ICML-style Extended Abstract
+│   ├── extended_abstract.tex           # LaTeX source (formatted for Overleaf)
+│   ├── references.bib                  # BibTeX bibliography
+│   ├── README.md                       # Compilation & Overleaf import guide
+│   └── figures/                        # Embedded 300-DPI publication figures
 ├── results/                            # Structured CSV and JSON logs
 └── figures/                            # 300-DPI publication figures (PNG and PDF)
 ```
