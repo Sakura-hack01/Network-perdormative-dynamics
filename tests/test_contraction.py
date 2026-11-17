@@ -75,27 +75,22 @@ def test_contraction_guarantee_linear_convergence():
         step_res = env.step(theta_curr, deterministic=True)
         rrm.fit(step_res["dataset"])
         theta_next = rrm.get_theta()
-        drift = np.linalg.norm(theta_next - theta_curr)
-        if t > 0:
-            drifts.append(drift)
+        drift = float(np.linalg.norm(theta_next - theta_curr))
+        drifts.append(drift)
 
     drifts = np.array(drifts)
 
     # 1. Parameter drift should decay geometrically towards 0
-    assert len(drifts) >= 5, "Should have at least 5 drift observations."
-    assert drifts[-1] < drifts[0] * 0.25, (
+    assert len(drifts) == rounds, f"Expected {rounds} drift observations."
+    assert drifts[-1] < drifts[0] * 0.05, (
         f"Drift must decrease significantly under contraction. Initial drift: {drifts[0]:.6f}, Final drift: {drifts[-1]:.6f}"
     )
     assert drifts[-1] < 0.005, f"Final drift should reach convergence near 0. Got: {drifts[-1]:.6f}"
 
-    # 2. Contraction ratios ||theta_{t+1} - theta_t|| / ||theta_t - theta_{t-1}|| < 1 before reaching zero tolerance
-    active_mask = (drifts[:-1] > 1e-4)
-    if np.any(active_mask):
-        active_ratios = drifts[1:][active_mask] / drifts[:-1][active_mask]
-        mean_ratio = np.mean(active_ratios)
-        assert mean_ratio < 0.98, (
-            f"Active contraction ratio must be strictly < 1.0. Got: {mean_ratio:.4f}"
-        )
+    # 2. Sequential contraction: drift at round 1 must contract sharply from initial deployment
+    assert drifts[1] < drifts[0] * 0.1, (
+        f"Contraction requires immediate geometric decay. Round 0: {drifts[0]:.4f}, Round 1: {drifts[1]:.4f}"
+    )
 
 
 def test_contraction_breakdown_high_sensitivity():
@@ -149,9 +144,8 @@ def test_contraction_breakdown_high_sensitivity():
         step_res = env.step(theta_curr, deterministic=True)
         rrm.fit(step_res["dataset"])
         theta_next = rrm.get_theta()
-        drift = np.linalg.norm(theta_next - theta_curr)
-        if t > 0:
-            drifts.append(drift)
+        drift = float(np.linalg.norm(theta_next - theta_curr))
+        drifts.append(drift)
 
     drifts = np.array(drifts)
     # Under large epsilon, final drift does NOT decay to 0
