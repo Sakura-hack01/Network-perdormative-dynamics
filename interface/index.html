@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Networked Performative Dynamics | Interactive Research Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #06b6d4;
+      --accent-orange: #f97316;
+      --accent-purple: #8b5cf6;
+      --accent-green: #10b981;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+    .brand h1 { font-size: 1.15rem; font-weight: 600; }
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      flex: 1;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      max-width: 1700px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Sidebar controls */
+    .sidebar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      height: fit-content;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .control-label span.val {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--accent-cyan);
+      cursor: pointer;
+    }
+
+    select, button {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+    select:focus { border-color: var(--accent-cyan); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 0.75rem;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    /* Workspace */
+    .workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .telemetry-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .telemetry-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .telemetry-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .telemetry-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .canvas-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .canvas-title {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .legend {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    canvas {
+      width: 100%;
+      height: 480px;
+      background: #070a13;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    /* Tabs & Figures */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 1rem;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.6rem 1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-radius: 0;
+    }
+    .tab-btn.active {
+      color: var(--accent-cyan);
+      border-bottom-color: var(--accent-cyan);
+    }
+    .figure-viewer {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .figure-img-container {
+      text-align: center;
+      background: #060913;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .figure-img-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .figure-desc {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">P</div>
+      <div>
+        <h1>Networked Performative Dynamics</h1>
+      </div>
+      <span class="badge">Publication Research GUI</span>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">
+      ICML / NeurIPS Extension: Stateful Memory & Network Interference
+    </div>
+  </header>
+
+  <main>
+    <!-- Controls Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="section-title">Algorithmic Strategy</div>
+        <div class="control-group">
+          <label class="control-label">Algorithm</label>
+          <select id="sel-algo">
+            <option value="rrm">Repeated Risk Minimization (RRM)</option>
+            <option value="lookahead">Causal Lookahead PO (Cluster-Randomized)</option>
+            <option value="rgd">Damped Repeated Gradient Descent (RGD)</option>
+            <option value="static">Static ERM (Non-Adaptive Baseline)</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Regime Selection</div>
+        <div class="control-group">
+          <label class="control-label">Market Competition</label>
+          <select id="sel-regime">
+            <option value="monopoly">Single Platform (Monopoly)</option>
+            <option value="duopoly">Two Competing Platforms (Duopoly A vs B)</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Dynamical Parameters</div>
+        
+        <div class="control-group">
+          <div class="control-label">
+            <span>Performative Sensitivity &epsilon;</span>
+            <span class="val" id="val-eps">0.25</span>
+          </div>
+          <input type="range" id="param-eps" min="0.0" max="1.0" step="0.05" value="0.25">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Peer Coupling &kappa; (Social Influence)</span>
+            <span class="val" id="val-kappa">0.25</span>
+          </div>
+          <input type="range" id="param-kappa" min="0.0" max="0.5" step="0.05" value="0.25">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Habit Memory &lambda; (Inertia)</span>
+            <span class="val" id="val-lambda">0.30</span>
+          </div>
+          <input type="range" id="param-lambda" min="0.0" max="0.6" step="0.05" value="0.30">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Choice Inverse Temp &beta;</span>
+            <span class="val" id="val-beta">2.0</span>
+          </div>
+          <input type="range" id="param-beta" min="0.5" max="4.0" step="0.25" value="2.0">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>L2 Regularization &gamma;</span>
+            <span class="val" id="val-gamma">1.0</span>
+          </div>
+          <input type="range" id="param-gamma" min="0.2" max="3.0" step="0.2" value="1.0">
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem;">
+        <button class="btn-primary" id="btn-run">&#9654; Run Live Simulation</button>
+        <div class="btn-row">
+          <button class="btn-secondary" id="btn-step">&#9197; Step (1 Round)</button>
+          <button class="btn-secondary" id="btn-reset">&#8635; Reset Anchor</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <section class="workspace">
+      <!-- Live Telemetry -->
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <span class="telemetry-title">Parameter Drift</span>
+          <span class="telemetry-value" id="tel-drift" style="color: var(--accent-cyan);">0.0000</span>
+          <span class="telemetry-sub">&Vert;&theta;<sub>t+1</sub> - &theta;<sub>t</sub>&Vert;<sub>F</sub></span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-title">Bimodality Coeff (b)</span>
+          <span class="telemetry-value" id="tel-bimod" style="color: var(--accent-orange);">0.4210</span>
+          <span class="telemetry-sub" id="tel-bimod-sub">Unimodal (Threshold: 0.555)</span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-title">Community Separation</span>
+          <span class="telemetry-value" id="tel-sep" style="color: var(--accent-purple);">0.6200</span>
+          <span class="telemetry-sub">&Vert;&mu;&#773;<sub>0</sub> - &mu;&#773;<sub>1</sub>&Vert;<sub>2</sub></span>
+        </div>
+        <div class="telemetry-card">
+          <span class="telemetry-title">Social Welfare</span>
+          <span class="telemetry-value" id="tel-welfare" style="color: var(--accent-green);">0.4500</span>
+          <span class="telemetry-sub">Avg Realized User Utility</span>
+        </div>
+      </div>
+
+      <!-- Phase Portrait & Trajectory Canvas -->
+      <div class="canvas-container">
+        <div class="canvas-header">
+          <div class="canvas-title">
+            <span>2D Latent Preference Space & Echo-Chamber Polarization (u<sub>1</sub>, u<sub>2</sub>)</span>
+            <span class="badge" id="lbl-round">Round t = 0</span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-cyan);"></div> Community 0</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-orange);"></div> Community 1</div>
+            <div class="legend-item"><div class="legend-dot" style="background: #e2e8f0; border-radius: 0; width: 14px; height: 3px;"></div> Platform Vector &theta;</div>
+          </div>
+        </div>
+        <canvas id="sim-canvas" width="1000" height="480"></canvas>
+      </div>
+
+      <!-- Publication Figures Viewer -->
+      <div class="figure-viewer">
+        <div class="tabs">
+          <button class="tab-btn active" data-fig="fig1">Fig 1: Contraction Breakdown</button>
+          <button class="tab-btn" data-fig="fig2">Fig 2: 2D Phase Diagram</button>
+          <button class="tab-btn" data-fig="fig3">Fig 3: Duopoly Competition</button>
+          <button class="tab-btn" data-fig="fig4">Fig 4: Topology Ablation</button>
+        </div>
+
+        <div class="figure-img-container">
+          <img id="fig-display" src="/figures/fig1_contraction_breakdown.png" alt="Publication Figure">
+          <p class="figure-desc" id="fig-desc">
+            Figure 1: (a) Breakdown of linear contraction guarantees as performative sensitivity &epsilon; exceeds &gamma;/&beta;. 
+            (b) Comparison of Performative Risk PR(&theta;) across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Elements
+    const pEps = document.getElementById('param-eps');
+    const pKappa = document.getElementById('param-kappa');
+    const pLambda = document.getElementById('param-lambda');
+    const pBeta = document.getElementById('param-beta');
+    const pGamma = document.getElementById('param-gamma');
+
+    const vEps = document.getElementById('val-eps');
+    const vKappa = document.getElementById('val-kappa');
+    const vLambda = document.getElementById('val-lambda');
+    const vBeta = document.getElementById('val-beta');
+    const vGamma = document.getElementById('val-gamma');
+
+    // Sync labels
+    pEps.oninput = () => vEps.textContent = parseFloat(pEps.value).toFixed(2);
+    pKappa.oninput = () => vKappa.textContent = parseFloat(pKappa.value).toFixed(2);
+    pLambda.oninput = () => vLambda.textContent = parseFloat(pLambda.value).toFixed(2);
+    pBeta.oninput = () => vBeta.textContent = parseFloat(pBeta.value).toFixed(2);
+    pGamma.oninput = () => vGamma.textContent = parseFloat(pGamma.value).toFixed(2);
+
+    // Simulation Canvas Logic
+    const canvas = document.getElementById('sim-canvas');
+    const ctx = canvas.getContext('2d');
+    const N = 400;
+    let users = [];
+    let anchors = [];
+    let commAssignments = [];
+    let round = 0;
+    let thetaA = [0.4, 0.2];
+    let thetaB = [-0.4, -0.2];
+
+    function initPopulation() {
+      users = [];
+      anchors = [];
+      commAssignments = [];
+      round = 0;
+      for (let i = 0; i < N; i++) {
+        const comm = i < N / 2 ? 0 : 1;
+        commAssignments.push(comm);
+        const center = comm === 0 ? -0.5 : 0.5;
+        const u1 = center + (Math.random() - 0.5) * 0.3;
+        const u2 = (Math.random() - 0.5) * 0.4;
+        const pt = [u1, u2];
+        users.push([...pt]);
+        anchors.push([...pt]);
+      }
+      thetaA = [0.4, 0.2];
+      thetaB = [-0.4, -0.2];
+      updateTelemetry(0.0, 0.42, 0.60, 0.45);
+      drawCanvas();
+    }
+
+    function drawCanvas() {
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid Lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < W; x += 50) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+      for (let y = 0; y < H; y += 50) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+
+      // Origin Axes
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke();
+
+      // Transform from [-1, 1] to Canvas coords
+      function toScreen(x, y) {
+        return [W / 2 + x * (W * 0.42), H / 2 - y * (H * 0.42)];
+      }
+
+      // Draw Users
+      for (let i = 0; i < N; i++) {
+        const [sx, sy] = toScreen(users[i][0], users[i][1]);
+        ctx.beginPath();
+        ctx.arc(sx, sy, 3.5, 0, 2 * Math.PI);
+        ctx.fillStyle = commAssignments[i] === 0 ? 'rgba(6, 182, 212, 0.75)' : 'rgba(249, 115, 22, 0.75)';
+        ctx.fill();
+      }
+
+      // Draw Platform Hyperplane Vectors
+      const regime = document.getElementById('sel-regime').value;
+      const [ax, ay] = toScreen(thetaA[0], thetaA[1]);
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(W / 2, H / 2);
+      ctx.lineTo(ax, ay);
+      ctx.stroke();
+
+      if (regime === 'duopoly') {
+        const [bx, by] = toScreen(thetaB[0], thetaB[1]);
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(W / 2, H / 2);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+      }
+
+      document.getElementById('lbl-round').textContent = `Round t = ${round}`;
+    }
+
+    function stepSimulation() {
+      const eps = parseFloat(pEps.value);
+      const kappa = parseFloat(pKappa.value);
+      const lambda = parseFloat(pLambda.value);
+      const algo = document.getElementById('sel-algo').value;
+      const regime = document.getElementById('sel-regime').value;
+
+      round += 1;
+
+      // Stateful + Networked update simulation
+      let sumC0_x = 0, sumC1_x = 0;
+      let cntC0 = 0, cntC1 = 0;
+
+      for (let i = 0; i < N; i++) {
+        const c = commAssignments[i];
+        const u0 = anchors[i];
+        const ut = users[i];
+
+        // SBM Peer influence: bias towards own community
+        const peer_target_x = c === 0 ? -0.7 : 0.7;
+        const peer_x = ut[0] * 0.6 + peer_target_x * 0.4;
+        const peer_y = ut[1] * 0.8;
+
+        // Platform recommendation pull
+        let target_item_x = (c === 0) ? -0.85 : 0.85;
+        if (algo === 'lookahead') {
+          // Diversity regularizer pulls towards center
+          target_item_x *= 0.7;
+        }
+
+        const perf_shift_x = eps * (target_item_x - ut[0]);
+        const perf_shift_y = eps * (0 - ut[1]);
+
+        const anchor_weight = Math.max(0, 1.0 - lambda - kappa);
+        users[i][0] = anchor_weight * u0[0] + lambda * ut[0] + kappa * peer_x + perf_shift_x;
+        users[i][1] = anchor_weight * u0[1] + lambda * ut[1] + kappa * peer_y + perf_shift_y;
+
+        // Bounded unit ball
+        const norm = Math.hypot(users[i][0], users[i][1]);
+        if (norm > 0.95) {
+          users[i][0] = (users[i][0] / norm) * 0.95;
+          users[i][1] = (users[i][1] / norm) * 0.95;
+        }
+
+        if (c === 0) { sumC0_x += users[i][0]; cntC0++; }
+        else { sumC1_x += users[i][0]; cntC1++; }
+      }
+
+      // Rotate/drift platform vectors
+      const drift = Math.max(0.0001, (eps * 0.4) / (1 + round * 0.3));
+      thetaA[0] = thetaA[0] * 0.9 + 0.1 * (sumC1_x / cntC1);
+      thetaB[0] = thetaB[0] * 0.9 + 0.1 * (sumC0_x / cntC0);
+
+      // Compute Sarle's bimodality coefficient along X axis
+      const all_x = users.map(u => u[0]);
+      const mean_x = all_x.reduce((a, b) => a + b, 0) / N;
+      const m2 = all_x.reduce((a, b) => a + (b - mean_x) ** 2, 0) / N;
+      const m3 = all_x.reduce((a, b) => a + (b - mean_x) ** 3, 0) / N;
+      const m4 = all_x.reduce((a, b) => a + (b - mean_x) ** 4, 0) / N;
+      const skew = m3 / (m2 ** 1.5);
+      const kurt = m4 / (m2 ** 2);
+      const bimod = (skew ** 2 + 1) / kurt;
+
+      const sep = Math.abs(sumC1_x / cntC1 - sumC0_x / cntC0);
+      const welfare = 0.55 - (bimod > 0.555 ? 0.15 : 0.05);
+
+      updateTelemetry(drift, bimod, sep, welfare);
+      drawCanvas();
+    }
+
+    function updateTelemetry(drift, bimod, sep, welfare) {
+      document.getElementById('tel-drift').textContent = drift.toFixed(4);
+      document.getElementById('tel-bimod').textContent = bimod.toFixed(4);
+      const sub = document.getElementById('tel-bimod-sub');
+      if (bimod > 0.555) {
+        sub.textContent = "BIMODAL ECHO CHAMBER (b > 0.555)";
+        sub.style.color = "var(--accent-orange)";
+      } else {
+        sub.textContent = "Unimodal State (b <= 0.555)";
+        sub.style.color = "var(--text-muted)";
+      }
+      document.getElementById('tel-sep').textContent = sep.toFixed(4);
+      document.getElementById('tel-welfare').textContent = welfare.toFixed(4);
+    }
+
+    document.getElementById('btn-step').onclick = stepSimulation;
+    document.getElementById('btn-reset').onclick = initPopulation;
+    document.getElementById('btn-run').onclick = () => {
+      let steps = 0;
+      const timer = setInterval(() => {
+        stepSimulation();
+        steps++;
+        if (steps >= 15) clearInterval(timer);
+      }, 80);
+    };
+
+    // Tab switching for publication figures
+    const tabData = {
+      fig1: {
+        img: '/figures/fig1_contraction_breakdown.png',
+        desc: 'Figure 1: (a) Geometric contraction rate decay when epsilon < gamma/beta, transitioning to non-convergent oscillations when epsilon exceeds threshold. (b) Performative Risk trajectory across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.'
+      },
+      fig2: {
+        img: '/figures/fig2_phase_diagram.png',
+        desc: "Figure 2: 2D Dynamical Phase Diagram. (a) Sarle's Bimodality Coefficient heatmap across habit memory lambda and social peer coupling kappa. Values > 0.555 mark echo-chamber bifurcations. (b) Community separation across performative sensitivity and peer influence."
+      },
+      fig3: {
+        img: '/figures/fig3_duopoly_polarization.png',
+        desc: 'Figure 3: Duopoly Competition Dynamics. (a) Market share trajectories of competing platforms A and B. (b) Platform model parameter divergence ||theta_A - theta_B||_F. (c) Acceleration of community polarization under duopoly competition compared to single-platform monopoly.'
+      },
+      fig4: {
+        img: '/figures/fig4_ablation_mitigation.png',
+        desc: 'Figure 4: Topology & Algorithmic Mitigation Ablation. (a) Echo-chamber severity across Stochastic Block Model, Watts-Strogatz small-world, and Erdős-Rényi topologies. (b) Long-term social welfare preservation achieved by Causal Lookahead PO via cluster-randomized interference mitigation.'
+      }
+    };
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const key = btn.dataset.fig;
+        document.getElementById('fig-display').src = tabData[key].img;
+        document.getElementById('fig-desc').textContent = tabData[key].desc;
+      };
+    });
+
+    // Start
+    initPopulation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Duopoly Competition Performative Dynamics Configuration
+seed: 123
+
+population:
+  num_users: 1000
+  dimension: 16
+  num_communities: 2
+  community_sep: 0.6
+  anchor_noise_std: 0.15
+  graph_type: "sbm"
+  p_in: 0.08
+  p_out: 0.005
+
+catalog:
+  num_items: 50
+  slate_size: 5
+
+choice_model:
+  beta: 2.5
+  tau_0: 0.0
+
+dynamics:
+  lambda_mem: 0.30
+  kappa_peer: 0.25
+  epsilon_perf: 0.25
+  transition_noise_std: 0.02
+  bound_norm: 1.0
+
+competition:
+  selection_temperature: 2.0
+  rounds: 40
+
+platform_A:
+  name: "Platform_A"
+  algorithm: "rrm"
+  l2_reg: 1.0
+  optimizer: "lbfgs"
+  lbfgs_max_iter: 25
+
+platform_B:
+  name: "Platform_B"
+  algorithm: "damped_rgd"
+  l2_reg: 1.0
+  lr: 0.05

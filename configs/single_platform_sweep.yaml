@@ -1,0 +1,48 @@
+# Single Platform Performative Dynamics Configuration
+seed: 42
+
+population:
+  num_users: 1000
+  dimension: 16
+  num_communities: 2
+  community_sep: 0.6
+  anchor_noise_std: 0.15
+  graph_type: "sbm"
+  p_in: 0.08
+  p_out: 0.005
+  ws_k: 10
+  ws_p: 0.1
+
+catalog:
+  num_items: 50
+  slate_size: 5
+
+choice_model:
+  beta: 2.0
+  tau_0: 0.0
+
+dynamics:
+  lambda_mem: 0.35
+  kappa_peer: 0.25
+  epsilon_perf: 0.20
+  transition_noise_std: 0.02
+  bound_norm: 1.0
+
+training:
+  l2_reg: 1.0
+  lr_rgd: 0.05
+  rounds: 40
+  batch_size: 1000
+  optimizer: "lbfgs"
+  lbfgs_max_iter: 25
+
+lookahead:
+  delta: 0.05
+  n_clusters: 8
+  div_weight: 0.05
+  lr: 0.05
+
+sweep:
+  epsilon_values: [0.0, 0.05, 0.1, 0.2, 0.4, 0.8]
+  lambda_values: [0.0, 0.2, 0.4, 0.6, 0.8]
+  kappa_values: [0.0, 0.1, 0.2, 0.3, 0.5]
