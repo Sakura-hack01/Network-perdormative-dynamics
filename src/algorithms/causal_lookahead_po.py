@@ -61,12 +61,22 @@ class CausalLookaheadPO(BaseRecommender):
             from scipy.sparse.linalg import eigsh
             vals, vecs = eigsh(L_sym, k=min(k + 1, N - 1), which="SM")
             features = vecs[:, 1:k]  # Skip trivial zero eigenvalue
-            # Normalize rows
             row_norms = np.linalg.norm(features, axis=1, keepdims=True)
             features = features / np.maximum(row_norms, 1e-12)
 
             from scipy.cluster.vq import kmeans2
             _, labels = kmeans2(features, k, minit="points", seed=self.seed)
+
+            # Ensure all k clusters have at least one node
+            unique_labels = np.unique(labels)
+            if len(unique_labels) < k:
+                missing = set(range(k)) - set(unique_labels)
+                for m in missing:
+                    counts = np.bincount(labels, minlength=k)
+                    largest = np.argmax(counts)
+                    idx_in_largest = np.where(labels == largest)[0]
+                    if len(idx_in_largest) > 1:
+                        labels[idx_in_largest[-1]] = m
         except Exception:
             # Fallback to balanced random/community assignment if graph is disconnected
             labels = np.arange(N) % k
