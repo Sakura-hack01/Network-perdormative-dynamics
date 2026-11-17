@@ -246,8 +246,7 @@ If you build upon this codebase or theoretical framework, please cite:
 ```bibtex
 @article{networked_performative_dynamics2026,
   title   = {Stateful Performative Prediction under Multi-Platform Competition and Social Network Interference},
-  author  = {Principal Research Engineer},
-  journal = {Antigravity Research Repository},
+  author  = {S.D.},
   year    = {2026}
 }
 ```
