@@ -3,8 +3,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Tests: Passing](https://img.shields.io/badge/pytest-7%20passed-brightgreen.svg)]()
-[![Paper: 2-Page Extended Abstract](https://img.shields.io/badge/Paper-NeurIPS%20Extended%20Abstract-purple.svg)](paper/extended_abstract.tex)
+
 
 A clean, reproducible, publication-grade research repository investigating **"Stateful Performative Prediction under Multi-Platform Competition and Social Network Interference"**, extending foundational work by Perdomo et al. (*ICML 2020*) and Mendler-Dünner et al. (*NeurIPS 2020*).
 
