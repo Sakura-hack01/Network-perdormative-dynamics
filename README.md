@@ -109,11 +109,6 @@ networked-performative-dynamics/
 │   ├── __init__.py
 │   ├── test_contraction.py             # Unit tests for contraction and breakdown
 │   └── test_env.py                     # Unit tests for population, graph & choices
-├── paper/                              # 2-Page NeurIPS/ICML-style Extended Abstract
-│   ├── extended_abstract.tex           # LaTeX source (formatted for Overleaf)
-│   ├── references.bib                  # BibTeX bibliography
-│   ├── README.md                       # Compilation & Overleaf import guide
-│   └── figures/                        # Embedded 300-DPI publication figures
 ├── results/                            # Structured CSV and JSON logs
 └── figures/                            # 300-DPI publication figures (PNG and PDF)
 ```
