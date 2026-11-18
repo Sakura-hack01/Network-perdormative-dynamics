@@ -8,8 +8,6 @@
 
 A clean, reproducible, publication-grade research repository investigating **"Stateful Performative Prediction under Multi-Platform Competition and Social Network Interference"**, extending foundational work by Perdomo et al. (*ICML 2020*) and Mendler-Dünner et al. (*NeurIPS 2020*).
 
-> **📄 Research Paper Draft:** A complete 2-page NeurIPS/ICML-style LaTeX extended abstract summarizing the theoretical propositions, proof sketches, and experimental results is available in [`paper/extended_abstract.tex`](paper/extended_abstract.tex) (ready for 1-click Overleaf import). See [`paper/README.md`](paper/README.md).
-
 ---
 
 ## 1. Research Overview & Theoretical Motivation
