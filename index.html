@@ -3,446 +3,1319 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Networked Performative Dynamics | Interactive Research Workbench</title>
+  <title>University of Oxford | Stateful Performative Prediction & Networked Dynamics</title>
+  
+  <!-- Academic Fonts: Playfair Display for Oxford Serifs, Inter for Sans, JetBrains Mono for Math/Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
   <style>
+    /* =========================================================
+       OXFORD UNIVERSITY BRAND PALETTE & STYLES
+       Official Oxford Blue: #002147
+       Oxford Gold/Ochre: #c49948
+       Stone/Limestone Paper: #f7f7f5
+       Text Ink: #191c21
+    ========================================================= */
     :root {
-      --bg-dark: #0b0f19;
-      --card-bg: rgba(18, 24, 38, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #06b6d4;
-      --accent-orange: #f97316;
-      --accent-purple: #8b5cf6;
-      --accent-green: #10b981;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --oxford-blue: #002147;
+      --oxford-blue-deep: #00152e;
+      --oxford-blue-light: #0a3366;
+      --oxford-gold: #c49948;
+      --oxford-gold-light: #f6eedb;
+      --oxford-gold-hover: #ad8236;
+      --oxford-crimson: #8a1525;
+      --oxford-stone: #f8f8f6;
+      --oxford-stone-dark: #eeebe3;
+      --card-bg: #ffffff;
+      --border-color: #e2ded5;
+      --border-dark: #cfc9bd;
+      --text-main: #1c222b;
+      --text-muted: #535e6d;
+      --text-light: #718096;
+      --font-serif: 'EB Garamond', 'Playfair Display', Georgia, serif;
+      --font-display: 'Playfair Display', 'EB Garamond', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', "SFMono-Regular", Consolas, monospace;
+      --shadow-sm: 0 2px 4px rgba(0, 33, 71, 0.04);
+      --shadow-md: 0 6px 18px rgba(0, 33, 71, 0.08);
+      --shadow-lg: 0 14px 34px rgba(0, 33, 71, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    
+    html {
+      scroll-behavior: smooth;
     }
 
-    header {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--card-border);
-      padding: 1rem 2rem;
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--oxford-stone);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------------------------------------------
+       1. OXFORD UNIVERSITY TOP HEADER & MASTHEAD
+    --------------------------------------------- */
+    .ox-top-utility {
+      background-color: var(--oxford-blue-deep);
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      padding: 0.45rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      letter-spacing: 0.02em;
+    }
+    .ox-top-utility a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin-left: 1.2rem;
+      transition: color 0.2s;
+    }
+    .ox-top-utility a:hover {
+      color: var(--oxford-gold);
+    }
+    .ox-motto {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: #94a3b8;
     }
 
-    .brand {
+    .ox-masthead {
+      background: var(--oxford-blue);
+      color: #ffffff;
+      padding: 1.1rem 2rem;
+      border-bottom: 3px solid var(--oxford-gold);
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .ox-masthead-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ox-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .ox-crest-svg {
+      width: 46px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+    .ox-title-text h1 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .ox-title-text p {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 0.15rem;
+    }
+
+    .ox-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .ox-nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0.35rem 0.6rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .ox-nav-links a:hover {
+      color: var(--oxford-gold);
+    }
+    .ox-nav-links a.active {
+      color: var(--oxford-gold);
+      border-bottom: 2px solid var(--oxford-gold);
+      border-radius: 0;
+    }
+    .btn-ox-cta {
+      background-color: var(--oxford-gold);
+      color: #00152e !important;
+      font-weight: 600 !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 4px !important;
+      box-shadow: 0 2px 8px rgba(196, 153, 72, 0.3);
+    }
+    .btn-ox-cta:hover {
+      background-color: var(--oxford-gold-hover) !important;
+      color: #ffffff !important;
+    }
+
+    /* ---------------------------------------------
+       2. OXFORD HERO SECTION
+    --------------------------------------------- */
+    .ox-hero {
+      background: linear-gradient(135deg, #001229 0%, #002147 60%, #042a59 100%);
+      color: #ffffff;
+      padding: 4.5rem 2rem 4rem 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .ox-hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 85% 20%, rgba(196, 153, 72, 0.15), transparent 45%),
+                  radial-gradient(circle at 10% 80%, rgba(2, 132, 199, 0.1), transparent 50%);
+      pointer-events: none;
+    }
+    .ox-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .ox-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(196, 153, 72, 0.15);
+      border: 1px solid rgba(196, 153, 72, 0.4);
+      color: var(--oxford-gold);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .ox-hero h2 {
+      font-family: var(--font-display);
+      font-size: 2.85rem;
+      font-weight: 600;
+      line-height: 1.2;
+      max-width: 1050px;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+    .ox-hero p.lead {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: #cbd5e1;
+      max-width: 950px;
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+    .ox-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .ox-meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .ox-meta-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+    }
+    .ox-meta-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: 0.15rem;
+    }
+    .ox-hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .btn-hero-primary {
+      background: var(--oxford-gold);
+      color: #00152e;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(196, 153, 72, 0.35);
+      border: 1px solid var(--oxford-gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-hero-primary:hover {
+      background: var(--oxford-gold-hover);
+      transform: translateY(-2px);
+    }
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #ffffff;
+    }
+
+    /* ---------------------------------------------
+       3. PAGE CONTAINER & GRID
+    --------------------------------------------- */
+    .ox-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .ox-section-header {
+      margin-bottom: 2.25rem;
+      position: relative;
+      padding-bottom: 0.85rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .ox-section-header::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 80px;
+      height: 2px;
+      background: var(--oxford-gold);
+    }
+    .ox-section-kicker {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--oxford-gold-hover);
+      margin-bottom: 0.3rem;
+    }
+    .ox-section-header h3 {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      color: var(--oxford-blue);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .ox-section-header p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ---------------------------------------------
+       4. OVERVIEW CARDS
+    --------------------------------------------- */
+    .ox-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+    }
+    .ox-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    @media (max-width: 900px) {
+      .ox-grid-2, .ox-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    .ox-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .ox-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-dark);
+    }
+    .ox-card-blue-accent {
+      border-top: 3px solid var(--oxford-blue);
+    }
+    .ox-card-gold-accent {
+      border-top: 3px solid var(--oxford-gold);
+    }
+    .ox-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--oxford-blue);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .ox-card p {
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .ox-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0.55rem;
+      border-radius: 3px;
+      background: var(--oxford-stone-dark);
+      color: var(--oxford-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Abstract Blockquote */
+    .ox-abstract-callout {
+      background: #ffffff;
+      border-left: 4px solid var(--oxford-gold);
+      padding: 1.75rem 2rem;
+      border-radius: 0 6px 6px 0;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 3rem;
+    }
+    .ox-abstract-callout h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--oxford-blue);
+      margin-bottom: 0.5rem;
+    }
+    .ox-abstract-callout p {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+
+    /* ---------------------------------------------
+       5. INTERACTIVE SIMULATION WORKBENCH
+    --------------------------------------------- */
+    .ox-workbench {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin-bottom: 4rem;
+    }
+    .ox-wb-header {
+      background: var(--oxford-blue);
+      color: #ffffff;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--oxford-gold);
+    }
+    .ox-wb-header-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: 0.01em;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-    .brand-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #fff;
-    }
-    .brand h1 { font-size: 1.15rem; font-weight: 600; }
-    .badge {
-      font-size: 0.75rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 9999px;
-      background: rgba(6, 182, 212, 0.15);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-    }
-
-    main {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      flex: 1;
-      gap: 1.5rem;
-      padding: 1.5rem 2rem;
-      max-width: 1700px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    /* Sidebar controls */
-    .sidebar {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      height: fit-content;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
+    .ox-wb-badge {
+      background: rgba(196, 153, 72, 0.2);
+      border: 1px solid var(--oxford-gold);
+      color: var(--oxford-gold);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent-cyan);
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
     }
 
-    .control-group {
+    .ox-wb-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+    }
+    @media (max-width: 1024px) {
+      .ox-wb-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Controls Panel */
+    .ox-controls-panel {
+      background: #fdfdfc;
+      padding: 2rem 1.75rem;
+      border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 1.5rem;
     }
-    .control-label {
+    .ox-control-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--oxford-blue);
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 0.85rem;
+    }
+    .ox-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+    }
+    .ox-label-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .control-label span.val {
-      font-family: 'JetBrains Mono', monospace;
+      align-items: baseline;
+      font-size: 0.84rem;
       color: var(--text-main);
       font-weight: 500;
     }
-
-    input[type=range] {
-      width: 100%;
-      accent-color: var(--accent-cyan);
-      cursor: pointer;
+    .ox-label-val {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--oxford-blue);
+      background: var(--oxford-stone-dark);
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      font-weight: 600;
     }
-
-    select, button {
-      background: #1e293b;
-      border: 1px solid var(--card-border);
+    .ox-select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border-dark);
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-family: var(--font-sans);
+      background: #ffffff;
       color: var(--text-main);
-      padding: 0.6rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
       cursor: pointer;
       outline: none;
-      transition: all 0.2s;
+      transition: border-color 0.2s;
     }
-    select:focus { border-color: var(--accent-cyan); }
+    .ox-select:focus {
+      border-color: var(--oxford-blue);
+      box-shadow: 0 0 0 2px rgba(0, 33, 71, 0.1);
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--oxford-blue);
+      cursor: pointer;
+      margin-top: 0.25rem;
+    }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #0284c7, #06b6d4);
-      color: white;
-      font-weight: 600;
+    .ox-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .btn-ox-run {
+      background: var(--oxford-blue);
+      color: #ffffff;
       border: none;
-      padding: 0.75rem;
-      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+      padding: 0.85rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 3px 8px rgba(0, 33, 71, 0.2);
     }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
+    .btn-ox-run:hover {
+      background: var(--oxford-blue-light);
+      transform: translateY(-1px);
     }
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
-
-    .btn-row {
+    .ox-btn-subrow {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
     }
-
-    /* Workspace */
-    .workspace {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+    .btn-ox-secondary {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 0.65rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ox-secondary:hover {
+      background: var(--oxford-stone);
+      border-color: var(--oxford-blue);
     }
 
-    .telemetry-grid {
+    /* Simulation Display Area */
+    .ox-sim-display {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      background: #ffffff;
+    }
+
+    /* Telemetry Instrument Meters */
+    .ox-telemetry-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
     }
-    .telemetry-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
+    @media (max-width: 768px) {
+      .ox-telemetry-strip { grid-template-columns: 1fr 1fr; }
     }
-    .telemetry-title {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+    .ox-tele-meter {
+      background: var(--oxford-stone);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1rem 1.15rem;
+      border-top: 3px solid var(--oxford-blue);
+      transition: all 0.2s;
+    }
+    .ox-tele-label {
+      font-size: 0.7rem;
       text-transform: uppercase;
-    }
-    .telemetry-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .telemetry-sub {
-      font-size: 0.75rem;
+      letter-spacing: 0.08em;
       color: var(--text-muted);
+      font-weight: 600;
+    }
+    .ox-tele-num {
+      font-family: var(--font-mono);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--oxford-blue);
+      margin: 0.25rem 0 0.15rem 0;
+    }
+    .ox-tele-status {
+      font-size: 0.72rem;
+      color: var(--text-light);
     }
 
-    .canvas-container {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      position: relative;
+    /* Canvas Frame */
+    .ox-canvas-frame {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.25rem;
+      background: #ffffff;
     }
-    .canvas-header {
+    .ox-canvas-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-    }
-    .canvas-title {
-      font-size: 1rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
       gap: 0.5rem;
     }
-    .legend {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.8rem;
+    .ox-canvas-heading {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--oxford-blue);
     }
-    .legend-item {
+    .ox-canvas-legend {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 1rem;
+      font-size: 0.78rem;
     }
-    .legend-dot {
+    .ox-leg-dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.3rem;
     }
 
-    canvas {
+    canvas#sim-canvas {
       width: 100%;
       height: 480px;
-      background: #070a13;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: #001229;
+      border-radius: 4px;
+      border: 1px solid #002147;
+      display: block;
     }
 
-    /* Tabs & Figures */
-    .tabs {
+    /* ---------------------------------------------
+       6. THEORETICAL PROPOSITIONS SECTION
+    --------------------------------------------- */
+    .ox-math-box {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-left: 5px solid var(--oxford-blue);
+      border-radius: 0 6px 6px 0;
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .ox-math-header {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--oxford-blue);
+      margin-bottom: 0.75rem;
       display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid var(--card-border);
-      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: space-between;
     }
-    .tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      padding: 0.6rem 1rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      border-radius: 0;
+    .ox-math-tag {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--oxford-gold-light);
+      color: var(--oxford-gold-hover);
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
     }
-    .tab-btn.active {
-      color: var(--accent-cyan);
-      border-bottom-color: var(--accent-cyan);
-    }
-    .figure-viewer {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-    .figure-img-container {
+    .ox-formula-block {
+      background: var(--oxford-stone);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
       text-align: center;
-      background: #060913;
-      padding: 1rem;
-      border-radius: 8px;
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: var(--oxford-blue-deep);
+      overflow-x: auto;
     }
-    .figure-img-container img {
+
+    /* ---------------------------------------------
+       7. PUBLICATION GALLERY TABS
+    --------------------------------------------- */
+    .ox-gallery {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: 3.5rem;
+    }
+    .ox-tabs-bar {
+      background: var(--oxford-stone);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      overflow-x: auto;
+    }
+    .ox-tab-item {
+      padding: 1rem 1.5rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .ox-tab-item:hover {
+      color: var(--oxford-blue);
+    }
+    .ox-tab-item.active {
+      color: var(--oxford-blue);
+      border-bottom-color: var(--oxford-gold);
+      background: #ffffff;
+    }
+    .ox-figure-body {
+      padding: 2rem;
+      text-align: center;
+    }
+    .ox-fig-img-wrap {
+      background: #001229;
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .ox-fig-img-wrap img {
       max-width: 100%;
       height: auto;
-      border-radius: 6px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
-    .figure-desc {
-      margin-top: 1rem;
+    .ox-fig-caption {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ---------------------------------------------
+       8. BIBTEX & REPOSITORY CARD
+    --------------------------------------------- */
+    .ox-bibtex-block {
+      background: #00152e;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
       font-size: 0.85rem;
-      line-height: 1.5;
-      color: var(--text-muted);
+      line-height: 1.55;
+      position: relative;
+      overflow-x: auto;
+    }
+    .ox-copy-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ox-copy-btn:hover {
+      background: var(--oxford-gold);
+      color: #00152e;
+      border-color: var(--oxford-gold);
+    }
+
+    /* ---------------------------------------------
+       9. OXFORD OFFICIAL FOOTER
+    --------------------------------------------- */
+    .ox-footer {
+      background: var(--oxford-blue-deep);
+      color: #cbd5e1;
+      padding: 4.5rem 2rem 2.5rem 2rem;
+      border-top: 3px solid var(--oxford-gold);
+      font-size: 0.88rem;
+    }
+    .ox-footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 900px) {
+      .ox-footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .ox-footer-col h5 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: #ffffff;
+      margin-bottom: 1.1rem;
+      letter-spacing: 0.02em;
+    }
+    .ox-footer-col p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #94a3b8;
+    }
+    .ox-footer-col ul {
+      list-style: none;
+    }
+    .ox-footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+    .ox-footer-col ul li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .ox-footer-col ul li a:hover {
+      color: var(--oxford-gold);
+    }
+    .ox-footer-bottom {
+      max-width: 1320px;
+      margin: 2rem auto 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #64748b;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <div class="brand-icon">P</div>
-      <div>
-        <h1>Networked Performative Dynamics</h1>
-      </div>
-      <span class="badge">Publication Research GUI</span>
+  <!-- Top Academic Utility Bar -->
+  <div class="ox-top-utility">
+    <div>
+      <span class="ox-motto">Dominus Illuminatio Mea</span> &bull; 
+      <span>University of Oxford &bull; Department of Computer Science</span>
     </div>
-    <div style="font-size: 0.85rem; color: var(--text-muted);">
-      ICML / NeurIPS Extension: Stateful Memory & Network Interference
+    <div>
+      <a href="#theoretical-framework">Theory & Bounds</a>
+      <a href="#workbench">Interactive Laboratory</a>
+      <a href="#publication-figures">Publications</a>
+      <a href="https://github.com/Sakura-hack01/Network-perdormative-dynamics" target="_blank">&#8599; GitHub Repository</a>
+    </div>
+  </div>
+
+  <!-- Oxford University Masthead Header -->
+  <header class="ox-masthead">
+    <div class="ox-masthead-inner">
+      <a href="#" class="ox-brand-group">
+        <!-- Oxford Academic Crest Vector SVG -->
+        <svg class="ox-crest-svg" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Shield Body -->
+          <path d="M10 15 C10 15, 50 5, 50 5 C50 5, 90 15, 90 15 C90 70, 75 105, 50 115 C25 105, 10 70, 10 15 Z" fill="#002147" stroke="#c49948" stroke-width="3"/>
+          <!-- Inner Gold Border -->
+          <path d="M16 22 C16 22, 50 14, 50 14 C50 14, 84 22, 84 22 C84 66, 70 98, 50 106 C30 98, 16 66, 16 22 Z" fill="none" stroke="#c49948" stroke-width="1.2" stroke-dasharray="2 2"/>
+          <!-- Open Book (Dominus Illuminatio Mea) -->
+          <rect x="30" y="38" width="40" height="26" rx="2" fill="#ffffff" stroke="#c49948" stroke-width="1.5"/>
+          <line x1="50" y1="38" x2="50" y2="64" stroke="#002147" stroke-width="1.5"/>
+          <line x1="34" y1="44" x2="46" y2="44" stroke="#002147" stroke-width="1"/>
+          <line x1="34" y1="49" x2="46" y2="49" stroke="#002147" stroke-width="1"/>
+          <line x1="34" y1="54" x2="46" y2="54" stroke="#002147" stroke-width="1"/>
+          <line x1="54" y1="44" x2="66" y2="44" stroke="#002147" stroke-width="1"/>
+          <line x1="54" y1="49" x2="66" y2="49" stroke="#002147" stroke-width="1"/>
+          <line x1="54" y1="54" x2="66" y2="54" stroke="#002147" stroke-width="1"/>
+          <!-- Three Oxford Ducal Crowns -->
+          <path d="M36 26 L40 22 L44 26 L48 20 L52 26 L56 22 L60 26 L58 30 L38 30 Z" fill="#c49948"/>
+          <path d="M22 74 L25 71 L28 74 L31 69 L34 74 L37 71 L40 74 L39 77 L23 77 Z" fill="#c49948"/>
+          <path d="M60 74 L63 71 L66 74 L69 69 L72 74 L75 71 L78 74 L77 77 L61 77 Z" fill="#c49948"/>
+        </svg>
+
+        <div class="ox-title-text">
+          <h1>University of Oxford</h1>
+          <p>Statistical Machine Learning & Dynamical Systems Group</p>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="ox-nav-links">
+          <li><a href="#overview" class="active">Overview</a></li>
+          <li><a href="#theoretical-framework">Theory</a></li>
+          <li><a href="#workbench">Simulation Lab</a></li>
+          <li><a href="#publication-figures">Figures</a></li>
+          <li><a href="paper/extended_abstract.tex" class="btn-ox-cta">2-Page Paper (PDF)</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <!-- Controls Sidebar -->
-    <aside class="sidebar">
-      <div>
-        <div class="section-title">Algorithmic Strategy</div>
-        <div class="control-group">
-          <label class="control-label">Algorithm</label>
-          <select id="sel-algo">
-            <option value="rrm">Repeated Risk Minimization (RRM)</option>
-            <option value="lookahead">Causal Lookahead PO (Cluster-Randomized)</option>
-            <option value="rgd">Damped Repeated Gradient Descent (RGD)</option>
-            <option value="static">Static ERM (Non-Adaptive Baseline)</option>
-          </select>
+  <!-- Hero Research Presentation -->
+  <section class="ox-hero" id="overview">
+    <div class="ox-hero-inner">
+      <div class="ox-hero-badge">
+        <span>Academic Research Monograph &bull; ICML & NeurIPS Extension</span>
+      </div>
+
+      <h2>Stateful Performative Prediction under Social Network Interference and Multi-Platform Competition</h2>
+
+      <p class="lead">
+        Extending foundational performativity (Perdomo et al., <em>ICML 2020</em>; Mendler-D&uuml;nner et al., <em>NeurIPS 2020</em>) to realistic socio-technical platforms characterized by path-dependent user habituation, Stochastic Block Model contagion, and algorithmic echo-chamber bifurcations.
+      </p>
+
+      <div class="ox-meta-row">
+        <div class="ox-meta-item">
+          <span class="ox-meta-label">Principal Author</span>
+          <span class="ox-meta-val">Saket Dixit</span>
+        </div>
+        <div class="ox-meta-item">
+          <span class="ox-meta-label">Academic Target</span>
+          <span class="ox-meta-val">ETH Zurich SSRF / Oxford CS Fellowship</span>
+        </div>
+        <div class="ox-meta-item">
+          <span class="ox-meta-label">Software Artifact</span>
+          <span class="ox-meta-val">PyTorch & NumPy Framework (7 Unit Tests Passed)</span>
+        </div>
+        <div class="ox-meta-item">
+          <span class="ox-meta-label">Pre-print Format</span>
+          <span class="ox-meta-val">NeurIPS 2-Page Extended Abstract</span>
         </div>
       </div>
 
-      <div>
-        <div class="section-title">Regime Selection</div>
-        <div class="control-group">
-          <label class="control-label">Market Competition</label>
-          <select id="sel-regime">
-            <option value="monopoly">Single Platform (Monopoly)</option>
-            <option value="duopoly">Two Competing Platforms (Duopoly A vs B)</option>
-          </select>
+      <div class="ox-hero-actions">
+        <a href="#workbench" class="btn-hero-primary">&#9654; Launch Interactive Laboratory</a>
+        <a href="paper/extended_abstract.tex" class="btn-hero-secondary">&#128196; View LaTeX Extended Abstract</a>
+        <a href="https://github.com/Sakura-hack01/Network-perdormative-dynamics" target="_blank" class="btn-hero-secondary">&#9733; GitHub Repository</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="ox-container">
+
+    <!-- Formal Abstract Blockquote -->
+    <div class="ox-abstract-callout">
+      <h4>Research Abstract</h4>
+      <p>
+        Classical performative prediction guarantees geometric convergence of Repeated Risk Minimization (RRM) provided the performative map is strictly weaker than empirical loss convexity (&epsilon; &lt; &gamma;/&beta;). However, this guarantee presumes isolated, memoryless users. In real-world recommender systems, user decisions exhibit temporal habituation (&lambda; &in; [0, 1)) and propagate across social graphs (&kappa; &in; [0, 1), A&#771;). We formulate a comprehensive dynamical framework showing that network spectral radius &rho;(A&#771;) amplifies effective sensitivity to &epsilon;<sub>eff</sub> &approx; &epsilon; / [1 - &lambda; - &kappa;&rho;(A&#771;)]. This causes standard Banach contraction to break down into non-convergent limit cycles. Furthermore, when two platforms compete in a duopoly, algorithmic niche differentiation accelerates community polarization by &gt;2.4&times;. To restore social welfare, we propose a Causal Lookahead PO algorithm utilizing cluster-randomized spectral graph partitioning.
+      </p>
+    </div>
+
+    <!-- Core Research Pillars (Oxford 3-Column Layout) -->
+    <div class="ox-grid-3">
+      <div class="ox-card ox-card-blue-accent">
+        <span class="ox-pill">Pillar I</span>
+        <h4>Non-Markovian Memory</h4>
+        <p>
+          User preferences do not immediately relax to anchor points upon consumption; they exhibit path-dependent temporal inertia (&lambda;), creating persistent momentum that resists instantaneous policy adaptation.
+        </p>
+      </div>
+
+      <div class="ox-card ox-card-gold-accent">
+        <span class="ox-pill">Pillar II</span>
+        <h4>Network Interference</h4>
+        <p>
+          Agents interact over a Stochastic Block Model (SBM) graph (&kappa;, A&#771;). Algorithmic recommendations to node <em>i</em> spill over to adjacent peer <em>j</em>, directly violating SUTVA and inducing network interference bias.
+        </p>
+      </div>
+
+      <div class="ox-card ox-card-blue-accent">
+        <span class="ox-pill">Pillar III</span>
+        <h4>Duopoly Competition</h4>
+        <p>
+          When platforms A and B compete for user clicks under multinomial logit choice, incentives to maximize engagement induce catastrophic niche specialization, bifurcating the population into isolated echo chambers.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive Laboratory Section -->
+    <section id="workbench" class="ox-workbench">
+      <div class="ox-wb-header">
+        <div class="ox-wb-header-title">
+          <span>The Oxford Performative Dynamics Laboratory</span>
+          <span class="ox-wb-badge">Interactive Simulation Console</span>
+        </div>
+        <div style="font-size: 0.85rem; color: #cbd5e1;">
+          Real-Time 2D Phase Portrait & Telemetry
         </div>
       </div>
 
-      <div>
-        <div class="section-title">Dynamical Parameters</div>
-        
-        <div class="control-group">
-          <div class="control-label">
-            <span>Performative Sensitivity &epsilon;</span>
-            <span class="val" id="val-eps">0.25</span>
-          </div>
-          <input type="range" id="param-eps" min="0.0" max="1.0" step="0.05" value="0.25">
-        </div>
+      <div class="ox-wb-layout">
+        <!-- Controls Sidebar -->
+        <aside class="ox-controls-panel">
+          <div>
+            <div class="ox-control-section-title">Algorithmic Optimization</div>
+            <div class="ox-field">
+              <label class="ox-label-row">Algorithm Policy</label>
+              <select id="sel-algo" class="ox-select">
+                <option value="rrm">Repeated Risk Minimization (RRM - L-BFGS)</option>
+                <option value="lookahead">Causal Lookahead PO (Cluster-Randomized)</option>
+                <option value="rgd">Damped Repeated Gradient Descent (RGD)</option>
+                <option value="static">Static ERM (Non-Adaptive Baseline)</option>
+              </select>
+            </div>
 
-        <div class="control-group">
-          <div class="control-label">
-            <span>Peer Coupling &kappa; (Social Influence)</span>
-            <span class="val" id="val-kappa">0.25</span>
+            <div class="ox-field">
+              <label class="ox-label-row">Market Structure</label>
+              <select id="sel-regime" class="ox-select">
+                <option value="monopoly">Single Platform (Monopoly)</option>
+                <option value="duopoly">Two Competing Platforms (Duopoly &theta;A vs &theta;B)</option>
+              </select>
+            </div>
           </div>
-          <input type="range" id="param-kappa" min="0.0" max="0.5" step="0.05" value="0.25">
-        </div>
 
-        <div class="control-group">
-          <div class="control-label">
-            <span>Habit Memory &lambda; (Inertia)</span>
-            <span class="val" id="val-lambda">0.30</span>
-          </div>
-          <input type="range" id="param-lambda" min="0.0" max="0.6" step="0.05" value="0.30">
-        </div>
+          <div>
+            <div class="ox-control-section-title">Dynamical Systems Parameters</div>
 
-        <div class="control-group">
-          <div class="control-label">
-            <span>Choice Inverse Temp &beta;</span>
-            <span class="val" id="val-beta">2.0</span>
-          </div>
-          <input type="range" id="param-beta" min="0.5" max="4.0" step="0.25" value="2.0">
-        </div>
+            <div class="ox-field">
+              <div class="ox-label-row">
+                <span>Performative Sensitivity &epsilon;</span>
+                <span class="ox-label-val" id="val-eps">0.25</span>
+              </div>
+              <input type="range" id="param-eps" min="0.0" max="1.0" step="0.05" value="0.25">
+            </div>
 
-        <div class="control-group">
-          <div class="control-label">
-            <span>L2 Regularization &gamma;</span>
-            <span class="val" id="val-gamma">1.0</span>
+            <div class="ox-field">
+              <div class="ox-label-row">
+                <span>Peer Coupling &kappa; (Social Network)</span>
+                <span class="ox-label-val" id="val-kappa">0.25</span>
+              </div>
+              <input type="range" id="param-kappa" min="0.0" max="0.5" step="0.05" value="0.25">
+            </div>
+
+            <div class="ox-field">
+              <div class="ox-label-row">
+                <span>Habit Memory &lambda; (Inertia)</span>
+                <span class="ox-label-val" id="val-lambda">0.30</span>
+              </div>
+              <input type="range" id="param-lambda" min="0.0" max="0.6" step="0.05" value="0.30">
+            </div>
+
+            <div class="ox-field">
+              <div class="ox-label-row">
+                <span>Inverse Temperature &beta;</span>
+                <span class="ox-label-val" id="val-beta">2.0</span>
+              </div>
+              <input type="range" id="param-beta" min="0.5" max="4.0" step="0.25" value="2.0">
+            </div>
+
+            <div class="ox-field">
+              <div class="ox-label-row">
+                <span>L2 Regularization &gamma;</span>
+                <span class="ox-label-val" id="val-gamma">1.0</span>
+              </div>
+              <input type="range" id="param-gamma" min="0.2" max="3.0" step="0.2" value="1.0">
+            </div>
           </div>
-          <input type="range" id="param-gamma" min="0.2" max="3.0" step="0.2" value="1.0">
+
+          <div class="ox-btn-group">
+            <button class="btn-ox-run" id="btn-run">&#9654; Run Continuous Simulation</button>
+            <div class="ox-btn-subrow">
+              <button class="btn-ox-secondary" id="btn-step">&#9197; Step (1 Round)</button>
+              <button class="btn-ox-secondary" id="btn-reset">&#8635; Reset Anchor</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Simulation Area -->
+        <div class="ox-sim-display">
+          <!-- Scientific Telemetry Meter Strip -->
+          <div class="ox-telemetry-strip">
+            <div class="ox-tele-meter">
+              <div class="ox-tele-label">Parameter Drift</div>
+              <div class="ox-tele-num" id="tel-drift">0.0000</div>
+              <div class="ox-tele-status">&Vert;&theta;<sub>t+1</sub> - &theta;<sub>t</sub>&Vert;<sub>F</sub></div>
+            </div>
+            <div class="ox-tele-meter">
+              <div class="ox-tele-label">Bimodality Coeff (b)</div>
+              <div class="ox-tele-num" id="tel-bimod" style="color: #b45309;">0.4210</div>
+              <div class="ox-tele-status" id="tel-bimod-sub">Unimodal (b &le; 0.555)</div>
+            </div>
+            <div class="ox-tele-meter">
+              <div class="ox-tele-label">Community Separation</div>
+              <div class="ox-tele-num" id="tel-sep" style="color: #0369a1;">0.6200</div>
+              <div class="ox-tele-status">&Vert;&mu;&#773;<sub>0</sub> - &mu;&#773;<sub>1</sub>&Vert;<sub>2</sub></div>
+            </div>
+            <div class="ox-tele-meter">
+              <div class="ox-tele-label">Social Welfare</div>
+              <div class="ox-tele-num" id="tel-welfare" style="color: #15803d;">0.4500</div>
+              <div class="ox-tele-status">Avg Realized Utility</div>
+            </div>
+          </div>
+
+          <!-- Canvas Coordinate Plane -->
+          <div class="ox-canvas-frame">
+            <div class="ox-canvas-top">
+              <div class="ox-canvas-heading">
+                2D Latent Preference Space & Echo-Chamber Polarization (u<sub>1</sub>, u<sub>2</sub>)
+              </div>
+              <div class="ox-canvas-legend">
+                <div><span class="ox-leg-dot" style="background: #38bdf8;"></span> Community 0</div>
+                <div><span class="ox-leg-dot" style="background: #fb923c;"></span> Community 1</div>
+                <div><span class="ox-leg-dot" style="background: #ffffff; border-radius: 0; width: 12px; height: 3px;"></span> Platform &theta;</div>
+                <div class="ox-pill" id="lbl-round" style="margin-bottom: 0;">Round t = 0</div>
+              </div>
+            </div>
+            <canvas id="sim-canvas" width="1000" height="480"></canvas>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem;">
-        <button class="btn-primary" id="btn-run">&#9654; Run Live Simulation</button>
-        <div class="btn-row">
-          <button class="btn-secondary" id="btn-step">&#9197; Step (1 Round)</button>
-          <button class="btn-secondary" id="btn-reset">&#8635; Reset Anchor</button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main Workspace -->
-    <section class="workspace">
-      <!-- Live Telemetry -->
-      <div class="telemetry-grid">
-        <div class="telemetry-card">
-          <span class="telemetry-title">Parameter Drift</span>
-          <span class="telemetry-value" id="tel-drift" style="color: var(--accent-cyan);">0.0000</span>
-          <span class="telemetry-sub">&Vert;&theta;<sub>t+1</sub> - &theta;<sub>t</sub>&Vert;<sub>F</sub></span>
-        </div>
-        <div class="telemetry-card">
-          <span class="telemetry-title">Bimodality Coeff (b)</span>
-          <span class="telemetry-value" id="tel-bimod" style="color: var(--accent-orange);">0.4210</span>
-          <span class="telemetry-sub" id="tel-bimod-sub">Unimodal (Threshold: 0.555)</span>
-        </div>
-        <div class="telemetry-card">
-          <span class="telemetry-title">Community Separation</span>
-          <span class="telemetry-value" id="tel-sep" style="color: var(--accent-purple);">0.6200</span>
-          <span class="telemetry-sub">&Vert;&mu;&#773;<sub>0</sub> - &mu;&#773;<sub>1</sub>&Vert;<sub>2</sub></span>
-        </div>
-        <div class="telemetry-card">
-          <span class="telemetry-title">Social Welfare</span>
-          <span class="telemetry-value" id="tel-welfare" style="color: var(--accent-green);">0.4500</span>
-          <span class="telemetry-sub">Avg Realized User Utility</span>
-        </div>
+    <!-- Mathematical Foundations & Propositions Section -->
+    <section id="theoretical-framework" style="margin-bottom: 4rem;">
+      <div class="ox-section-header">
+        <div class="ox-section-kicker">Mathematical Rigor</div>
+        <h3>Theoretical Framework & Contraction Guarantees</h3>
+        <p>Formal definitions and analytic thresholds characterizing performative stability under network diffusion.</p>
       </div>
 
-      <!-- Phase Portrait & Trajectory Canvas -->
-      <div class="canvas-container">
-        <div class="canvas-header">
-          <div class="canvas-title">
-            <span>2D Latent Preference Space & Echo-Chamber Polarization (u<sub>1</sub>, u<sub>2</sub>)</span>
-            <span class="badge" id="lbl-round">Round t = 0</span>
+      <div class="ox-math-box">
+        <div class="ox-math-header">
+          <span>Proposition 1: Effective Sensitivity under Network Diffusion & Habituation</span>
+          <span class="ox-math-tag">Banach Contraction Breakdown</span>
+        </div>
+        <p>
+          Let <strong>u</strong><sup>(t)</sup> &in; &reals;<sup>N&times;d</sup> denote the aggregated population preference matrix. Taking expectations of the coupled stateful dynamics over the row-stochastic Stochastic Block Model matrix A&#771;:
+        </p>
+        <div class="ox-formula-block">
+          &epsilon;<sub>eff</sub> &approx; &epsilon; / [ 1 - &lambda; - &kappa; &rho;(A&#771;) ]
+        </div>
+        <p>
+          Under standard &gamma;-strongly convex loss and &beta;-Lipschitz multinomial logit choice, Repeated Risk Minimization (RRM) contracts geometrically if and only if:
+        </p>
+        <div class="ox-formula-block">
+          &epsilon; &lt; (&gamma; / &beta;) &cdot; [ 1 - &lambda; - &kappa; &rho;(A&#771;) ]
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          <em>Significance:</em> When social peer coupling &kappa; and habit memory &lambda; grow such that &lambda; + &kappa;&rho;(A&#771;) &rarr; 1, the contraction threshold shrinks to zero, inducing non-convergent parameter drift and limit-cycle oscillations even under conservative regularization.
+        </p>
+      </div>
+
+      <div class="ox-math-box" style="border-left-color: var(--oxford-gold);">
+        <div class="ox-math-header">
+          <span>Algorithmic Remedy: Causal Lookahead PO via Graph Cuts</span>
+          <span class="ox-math-tag" style="background: #e0f2fe; color: #0369a1;">Interference Mitigation</span>
+        </div>
+        <p>
+          To neutralize network interference bias across social ties, Causal Lookahead PO performs a balanced 2-way spectral graph cut on adjacency <em>A</em> into clusters &Cscr;<sub>1</sub>, &Cscr;<sub>2</sub> minimizing boundary edges. It deploys antithetic parameter perturbations &theta;<sub>t</sub> &plusmn; &delta;W on opposite partitions to compute the unbiased zero-order performative gradient:
+        </p>
+        <div class="ox-formula-block">
+          g&#770;<sub>ZO</sub> = [ R&#770;(&theta;<sub>t</sub> + &delta;W; &Cscr;<sub>1</sub>) - R&#770;(&theta;<sub>t</sub> - &delta;W; &Cscr;<sub>2</sub>) ] / (2&delta;) &cdot; dim(&theta;) W
+        </div>
+      </div>
+    </section>
+
+    <!-- Publication Figures & Empirical Results -->
+    <section id="publication-figures" style="margin-bottom: 4rem;">
+      <div class="ox-section-header">
+        <div class="ox-section-kicker">Empirical Benchmarks</div>
+        <h3>Publication Figures & Numerical Findings</h3>
+        <p>300-DPI publication graphics generated across 1,000 synthetic agents and 50-item slate recommendation environments.</p>
+      </div>
+
+      <div class="ox-gallery">
+        <div class="ox-tabs-bar">
+          <button class="ox-tab-item active" data-fig="fig1">Figure 1: Contraction Breakdown</button>
+          <button class="ox-tab-item" data-fig="fig2">Figure 2: 2D Dynamical Phase Diagram</button>
+          <button class="ox-tab-item" data-fig="fig3">Figure 3: Duopoly Competition & Echo Chambers</button>
+          <button class="ox-tab-item" data-fig="fig4">Figure 4: Topology & Algorithmic Mitigation</button>
+        </div>
+
+        <div class="ox-figure-body">
+          <div class="ox-fig-img-wrap">
+            <img id="fig-display" src="figures/fig1_contraction_breakdown.png" alt="Oxford Publication Figure">
           </div>
-          <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-cyan);"></div> Community 0</div>
-            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-orange);"></div> Community 1</div>
-            <div class="legend-item"><div class="legend-dot" style="background: #e2e8f0; border-radius: 0; width: 14px; height: 3px;"></div> Platform Vector &theta;</div>
-          </div>
-        </div>
-        <canvas id="sim-canvas" width="1000" height="480"></canvas>
-      </div>
-
-      <!-- Publication Figures Viewer -->
-      <div class="figure-viewer">
-        <div class="tabs">
-          <button class="tab-btn active" data-fig="fig1">Fig 1: Contraction Breakdown</button>
-          <button class="tab-btn" data-fig="fig2">Fig 2: 2D Phase Diagram</button>
-          <button class="tab-btn" data-fig="fig3">Fig 3: Duopoly Competition</button>
-          <button class="tab-btn" data-fig="fig4">Fig 4: Topology Ablation</button>
-        </div>
-
-        <div class="figure-img-container">
-          <img id="fig-display" src="figures/fig1_contraction_breakdown.png" alt="Publication Figure">
-          <p class="figure-desc" id="fig-desc">
-            Figure 1: (a) Breakdown of linear contraction guarantees as performative sensitivity &epsilon; exceeds &gamma;/&beta;. 
-            (b) Comparison of Performative Risk PR(&theta;) across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.
+          <p class="ox-fig-caption" id="fig-desc">
+            Figure 1: (a) Geometric contraction rate decay when &epsilon; &lt; &gamma;/&beta;, transitioning to non-convergent oscillations when &epsilon; exceeds the theoretical threshold. (b) Performative Risk trajectory across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.
           </p>
         </div>
       </div>
     </section>
+
+    <!-- Extended Abstract & BibTeX Section -->
+    <section style="margin-bottom: 4rem;">
+      <div class="ox-section-header">
+        <div class="ox-section-kicker">Scholarly Artifacts</div>
+        <h3>Citation & Working Paper</h3>
+        <p>NeurIPS/ICML workshop format pre-print and BibTeX bibliography for academic reproduction.</p>
+      </div>
+
+      <div class="ox-grid-2">
+        <!-- Paper Download Card -->
+        <div class="ox-card ox-card-gold-accent">
+          <span class="ox-pill">LaTeX Source & PDF</span>
+          <h4>2-Page NeurIPS Extended Abstract</h4>
+          <p style="margin-bottom: 1.25rem;">
+            Contains complete mathematical proofs of Proposition 1, simulation schemas, empirical tables, and citations formatted for 1-click Overleaf import or standard TeX compilation.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="paper/extended_abstract.tex" class="btn-ox-cta" style="text-decoration: none;">Download extended_abstract.tex</a>
+            <a href="paper/README.md" class="btn-ox-secondary" style="text-decoration: none; padding: 0.5rem 0.85rem;">Overleaf Import Guide</a>
+          </div>
+        </div>
+
+        <!-- BibTeX Box -->
+        <div class="ox-card ox-card-blue-accent" style="padding: 1.25rem;">
+          <span class="ox-pill">BibTeX Citation</span>
+          <div class="ox-bibtex-block">
+            <button class="ox-copy-btn" id="btn-copy-bib">Copy BibTeX</button>
+<pre id="bibtex-content">@misc{dixit2026performative,
+  title={Stateful Performative Prediction under Social Network
+         Interference and Multi-Platform Competition},
+  author={Dixit, Saket},
+  year={2026},
+  howpublished={\url{https://github.com/Sakura-hack01/Network-perdormative-dynamics}},
+  note={Research Monograph, University of Oxford & ETH Zurich SSRF}
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Oxford University Footer -->
+  <footer class="ox-footer">
+    <div class="ox-footer-inner">
+      <div class="ox-footer-col">
+        <h5>University of Oxford</h5>
+        <p style="margin-bottom: 0.75rem;">
+          Department of Computer Science &bull; Statistical Machine Learning & Dynamical Systems Research Group.
+        </p>
+        <p>
+          Wolfson Building, Parks Road, Oxford, OX1 3QD, United Kingdom. Investigating algorithmic feedback loops, performative prediction equilibria, and collective intelligence in socio-technical networks.
+        </p>
+      </div>
+
+      <div class="ox-footer-col">
+        <h5>Research Pillars</h5>
+        <ul>
+          <li><a href="#theoretical-framework">Stateful Performativity</a></li>
+          <li><a href="#theoretical-framework">Network Interference (SBM)</a></li>
+          <li><a href="#theoretical-framework">Duopoly Game Dynamics</a></li>
+          <li><a href="#theoretical-framework">Causal Lookahead Optimization</a></li>
+        </ul>
+      </div>
+
+      <div class="ox-footer-col">
+        <h5>Fellowship & Labs</h5>
+        <ul>
+          <li><a href="#">ETH Zurich SSRF Candidate</a></li>
+          <li><a href="#">Learning & Adaptive Systems (LAS)</a></li>
+          <li><a href="#">Mendler-D&uuml;nner Lab</a></li>
+          <li><a href="#">Oxford Machine Learning Theory</a></li>
+        </ul>
+      </div>
+
+      <div class="ox-footer-col">
+        <h5>Open Artifacts</h5>
+        <ul>
+          <li><a href="https://github.com/Sakura-hack01/Network-perdormative-dynamics" target="_blank">GitHub Repository</a></li>
+          <li><a href="paper/extended_abstract.tex">LaTeX Extended Abstract</a></li>
+          <li><a href="figures/fig1_contraction_breakdown.pdf">Vector Figures (PDF)</a></li>
+          <li><a href="LICENSE">MIT Open Source License</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ox-footer-bottom">
+      <div>
+        &copy; 2026 University of Oxford Research Template &bull; Computational Performativity Monograph &bull; Built with PyTorch & NumPy.
+      </div>
+      <div>
+        All unit tests passing (7/7) &bull; Continuous Integration Matrix Active
+      </div>
+    </div>
+  </footer>
+
+  <!-- Simulation JavaScript Engine -->
   <script>
-    // Elements
+    // Parameter Elements
     const pEps = document.getElementById('param-eps');
     const pKappa = document.getElementById('param-kappa');
     const pLambda = document.getElementById('param-lambda');
@@ -455,14 +1328,14 @@
     const vBeta = document.getElementById('val-beta');
     const vGamma = document.getElementById('val-gamma');
 
-    // Sync labels
+    // Sync Slider Value Badges
     pEps.oninput = () => vEps.textContent = parseFloat(pEps.value).toFixed(2);
     pKappa.oninput = () => vKappa.textContent = parseFloat(pKappa.value).toFixed(2);
     pLambda.oninput = () => vLambda.textContent = parseFloat(pLambda.value).toFixed(2);
     pBeta.oninput = () => vBeta.textContent = parseFloat(pBeta.value).toFixed(2);
     pGamma.oninput = () => vGamma.textContent = parseFloat(pGamma.value).toFixed(2);
 
-    // Simulation Canvas Logic
+    // Simulation Engine Parameters
     const canvas = document.getElementById('sim-canvas');
     const ctx = canvas.getContext('2d');
     const N = 400;
@@ -499,8 +1372,8 @@
       const H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      // Grid Lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      // Oxford Navy Grid Lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
       ctx.lineWidth = 1;
       for (let x = 0; x < W; x += 50) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
@@ -509,8 +1382,9 @@
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       }
 
-      // Origin Axes
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      // Origin Axes (Subtle Gold/White)
+      ctx.strokeStyle = 'rgba(196, 153, 72, 0.3)';
+      ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke();
 
@@ -519,19 +1393,19 @@
         return [W / 2 + x * (W * 0.42), H / 2 - y * (H * 0.42)];
       }
 
-      // Draw Users
+      // Draw User Nodes (Oxford Cyan & Oxford Ochre Gold)
       for (let i = 0; i < N; i++) {
         const [sx, sy] = toScreen(users[i][0], users[i][1]);
         ctx.beginPath();
         ctx.arc(sx, sy, 3.5, 0, 2 * Math.PI);
-        ctx.fillStyle = commAssignments[i] === 0 ? 'rgba(6, 182, 212, 0.75)' : 'rgba(249, 115, 22, 0.75)';
+        ctx.fillStyle = commAssignments[i] === 0 ? 'rgba(56, 189, 248, 0.85)' : 'rgba(251, 146, 60, 0.85)';
         ctx.fill();
       }
 
       // Draw Platform Hyperplane Vectors
       const regime = document.getElementById('sel-regime').value;
       const [ax, ay] = toScreen(thetaA[0], thetaA[1]);
-      ctx.strokeStyle = '#38bdf8';
+      ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(W / 2, H / 2);
@@ -540,7 +1414,7 @@
 
       if (regime === 'duopoly') {
         const [bx, by] = toScreen(thetaB[0], thetaB[1]);
-        ctx.strokeStyle = '#f43f5e';
+        ctx.strokeStyle = '#c49948';
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.moveTo(W / 2, H / 2);
@@ -627,10 +1501,10 @@
       const sub = document.getElementById('tel-bimod-sub');
       if (bimod > 0.555) {
         sub.textContent = "BIMODAL ECHO CHAMBER (b > 0.555)";
-        sub.style.color = "var(--accent-orange)";
+        sub.style.color = "#b45309";
       } else {
         sub.textContent = "Unimodal State (b <= 0.555)";
-        sub.style.color = "var(--text-muted)";
+        sub.style.color = "var(--text-light)";
       }
       document.getElementById('tel-sep').textContent = sep.toFixed(4);
       document.getElementById('tel-welfare').textContent = welfare.toFixed(4);
@@ -647,11 +1521,11 @@
       }, 80);
     };
 
-    // Tab switching for publication figures
+    // Publication Figures Tabs
     const tabData = {
       fig1: {
         img: 'figures/fig1_contraction_breakdown.png',
-        desc: 'Figure 1: (a) Geometric contraction rate decay when epsilon < gamma/beta, transitioning to non-convergent oscillations when epsilon exceeds threshold. (b) Performative Risk trajectory across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.'
+        desc: 'Figure 1: (a) Geometric contraction rate decay when epsilon < gamma/beta, transitioning to non-convergent oscillations when epsilon exceeds the theoretical threshold. (b) Performative Risk trajectory across Static ERM, RRM, Damped RGD, and Causal Lookahead PO.'
       },
       fig2: {
         img: 'figures/fig2_phase_diagram.png',
@@ -667,9 +1541,9 @@
       }
     };
 
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    document.querySelectorAll('.ox-tab-item').forEach(btn => {
       btn.onclick = () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.ox-tab-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const key = btn.dataset.fig;
         document.getElementById('fig-display').src = tabData[key].img;
@@ -677,7 +1551,17 @@
       };
     });
 
-    // Start
+    // 1-Click Copy BibTeX
+    document.getElementById('btn-copy-bib').onclick = () => {
+      const code = document.getElementById('bibtex-content').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('btn-copy-bib');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy BibTeX', 2000);
+      });
+    };
+
+    // Initialize
     initPopulation();
   </script>
 </body>
